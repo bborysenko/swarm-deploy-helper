@@ -1,0 +1,39 @@
+# https://taskfile.dev
+
+version: '2'
+
+env:
+  CI_REGISTRY_IMAGE: bborysenko/swarm-deploy-helper
+  CI_REGISTRY_TAG: latest
+
+vars:
+  DOCKER_VERSION: 18.09.5
+  DOCKER_COMPOSE_VERSION: 1.24.0
+  DOCKER_MACHINE_VERSION: 0.16.1
+  CONTAINER_STRUCTURE_TEST_VERSION: 1.8.0
+  GLIBC_VERSION: 2.29-r0
+  YQ_VERSION: 2.3.0
+
+tasks:
+  ci:
+    cmds:
+      - task: build
+      - task: push
+
+  build:
+    desc: Build Docker image
+    cmds:
+      - |
+        docker build \
+          --build-arg DOCKER_VERSION={{.DOCKER_VERSION}} \
+          --build-arg DOCKER_COMPOSE_VERSION={{.DOCKER_COMPOSE_VERSION}} \
+          --build-arg DOCKER_MACHINE_VERSION={{.DOCKER_MACHINE_VERSION}} \
+          --build-arg GLIBC_VERSION={{.GLIBC_VERSION}} \
+          --build-arg YQ_VERSION={{.YQ_VERSION}} \
+          -t ${CI_REGISTRY_IMAGE}:${CI_REGISTRY_TAG} .
+    silent: true
+
+  push:
+    desc: Push Docker image to registry
+    cmds:
+      - docker push ${CI_REGISTRY_IMAGE}:${CI_REGISTRY_TAG}
