@@ -28,6 +28,7 @@ tasks:
           --build-arg DOCKER_VERSION={{.DOCKER_VERSION}} \
           --build-arg DOCKER_COMPOSE_VERSION={{.DOCKER_COMPOSE_VERSION}} \
           --build-arg DOCKER_MACHINE_VERSION={{.DOCKER_MACHINE_VERSION}} \
+          --build-arg CONTAINER_STRUCTURE_TEST_VERSION={{.CONTAINER_STRUCTURE_TEST_VERSION}} \
           --build-arg GLIBC_VERSION={{.GLIBC_VERSION}} \
           --build-arg YQ_VERSION={{.YQ_VERSION}} \
           -t ${CI_REGISTRY_IMAGE}:${CI_REGISTRY_TAG} .

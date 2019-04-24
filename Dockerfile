@@ -82,7 +82,7 @@ RUN set -eux; \
 # Install container-structure-test (https://github.com/GoogleContainerTools/container-structure-test/)
 RUN set -eux; \
     \
-    URL=https://storage.googleapis.com/container-structure-test/v1.8.0/container-structure-test-linux-amd64; \
+    URL=https://storage.googleapis.com/container-structure-test/v${CONTAINER_STRUCTURE_TEST_VERSION}/container-structure-test-linux-amd64; \
     curl -fsSL --retry 3 -o /usr/local/bin/container-structure-test $URL; \
     chmod +x /usr/local/bin/container-structure-test; \
     \
