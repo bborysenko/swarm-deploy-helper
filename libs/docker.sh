@@ -2,6 +2,8 @@
 #
 # Gitlab CI helper to build containerized applications
 
+[[ "$TRACE" ]] && set -x
+
 #######################################
 # Override Gitlab CI predefined variables
 #

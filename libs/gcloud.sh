@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+[[ "$TRACE" ]] && set -x
 
 #######################################
 # Authorize access to Google Cloud with a service account
