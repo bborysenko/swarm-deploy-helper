@@ -121,6 +121,8 @@ docker:image:build() {
   cmd+="${BUILD_CONTEXT:-.}"
 
   ( set -x; $cmd)
+
+  docker tag "$CI_REGISTRY_IMAGE" "${CI_REGISTRY_IMAGE%:*}:latest"
 }
 
 docker:compose:build() {
@@ -142,6 +144,7 @@ docker:image:test() {
 #######################################
 docker:image:push() {
   docker push "$CI_REGISTRY_IMAGE"
+  docker push "${CI_REGISTRY_IMAGE%:*}:latest"
 }
 
 docker:image:tag() {
