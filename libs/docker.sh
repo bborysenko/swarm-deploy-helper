@@ -31,7 +31,7 @@
 #   None
 #######################################
 docker:env:override() {
-  if [[ "$CI_COMMIT_REF_SLUG" != "master" ]]; then
+  if [[ "$CI_COMMIT_REF_SLUG" != "master" ]] && [[ -z "$CI_COMMIT_TAG" ]]; then
     export CI_REGISTRY_IMAGE+=/$CI_COMMIT_REF_SLUG
   fi
 
