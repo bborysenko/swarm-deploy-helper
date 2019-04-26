@@ -17,6 +17,7 @@ vars:
 tasks:
   ci:
     cmds:
+      - task: shellcheck
       - task: build
       - task: push
 
@@ -33,6 +34,11 @@ tasks:
           --build-arg YQ_VERSION={{.YQ_VERSION}} \
           -t ${CI_REGISTRY_IMAGE}:${CI_REGISTRY_TAG} .
     silent: true
+
+  shellcheck:
+    desc: Run shellcheck for shell scripts
+    cmds:
+      - shellcheck libs/*.sh
 
   push:
     desc: Push Docker image to registry
