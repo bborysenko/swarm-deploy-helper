@@ -33,6 +33,11 @@ docker:env:override() {
     export CI_REGISTRY_IMAGE+=/$CI_COMMIT_REF_SLUG
   fi
 
+  # Overide CI_REGISTRY_IMAGE to support building multiple images
+  if [[ $BUILD_DOCKERFILE == *"."* ]]; then
+    CI_REGISTRY_IMAGE+=/${BUILD_DOCKERFILE##*.}
+  fi
+
   if [[ -z "$CI_COMMIT_TAG" ]]; then
     export CI_REGISTRY_IMAGE+=:$CI_COMMIT_SHORT_SHA
   else
@@ -86,13 +91,6 @@ docker:registry:login() {
 #   None
 #######################################
 docker:image:build() {
-
-  docker:env:override
-
-  # Overide CI_REGISTRY_IMAGE to support building multiple images
-  if [[ $BUILD_DOCKERFILE == *"."* ]]; then
-    CI_REGISTRY_IMAGE="${CI_REGISTRY_IMAGE%:*}/${BUILD_DOCKERFILE##*.}:${CI_REGISTRY_IMAGE##*:}"
-  fi
 
   # By default we use latest image as a cache
   BUILD_CACHE_FROM=${BUILD_CACHE_FROM:+${CI_REGISTRY_IMAGE%:*}:latest}
