@@ -147,6 +147,19 @@ docker:image:push() {
   docker push "${CI_REGISTRY_IMAGE%:*}:latest"
 }
 
-docker:image:tag() {
-  true
+#######################################
+# Release container image
+#
+# Change tag for existing image and push back to Container Registry
+# Globals:
+#   CI_REGISTRY_IMAGE
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+docker:image:release() {
+  docker pull "${CI_REGISTRY_IMAGE%:*}:$CI_COMMIT_SHORT_SHA"
+  docker tag "${CI_REGISTRY_IMAGE%:*}:$CI_COMMIT_SHORT_SHA" "$CI_REGISTRY_IMAGE"
+  docker push "$CI_REGISTRY_IMAGE"
 }

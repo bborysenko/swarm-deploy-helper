@@ -4,14 +4,21 @@
 
 ## Building Docker images
 
-Example of `.gitlab-ci.yml`:
+Example of `.gitlab-ci.yml` to build and release container image:
 
 ```
 include:
   - remote: 'https://raw.githubusercontent.com/bborysenko/swarm-deploy-helper/master/templates/docker.gitlab-ci.yml'
 
-docker:
+stages:
+  - build
+  - release
+
+build:docker:
   extends: .docker:image:build
+
+release:docker:
+  extends: .docker:image:release
 ```
 
 ## Google Container Registry
