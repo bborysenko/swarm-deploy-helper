@@ -12,6 +12,7 @@
     - docker:env:override
     - docker:registry:login
     - docker:image:build
+    - docker:image:push
   only:
     refs:
       - branches

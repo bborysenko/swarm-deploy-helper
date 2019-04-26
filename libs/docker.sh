@@ -129,8 +129,17 @@ docker:image:test() {
   true
 }
 
+#######################################
+# Push docker image to Container Registry
+# Globals:
+#   CI_REGISTRY_IMAGE
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 docker:image:push() {
-  true
+  docker push "$CI_REGISTRY_IMAGE"
 }
 
 docker:image:tag() {
