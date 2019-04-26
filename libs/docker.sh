@@ -42,9 +42,34 @@ docker:env:override() {
 
 #######################################
 # Login to Container Registry
+#
+# Globals:
+#   CI_REGISTRY
+#   CI_REGISTRY_IMAGE
+#   CI_REGISTRY_PASSWORD
+#   GCLOUD_SERVICE_KEY
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   None
 #######################################
 docker:registry:login() {
-  true
+  case $CI_REGISTRY_IMAGE in
+    *gcr.io*)
+      echo "Login to Google Container Registry ..."
+      echo "$GOOGLE_SERVICE_KEY" | docker login -u _json_key --password-stdin "https://${CI_REGISTRY_IMAGE%%/*}"
+      ;;
+    $CI_REGISTRY*)
+      echo "Login to Gitlab Container Registry ..."
+      docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+      ;;
+    *)
+      echo "Can't login to ${CI_REGISTRY_IMAGE%%/*} Container Registry"
+      exit 1
+      ;;
+  esac
 }
 
 #######################################
