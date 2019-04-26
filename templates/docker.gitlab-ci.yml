@@ -9,6 +9,7 @@
   before_script:
     - source $CI_SCRIPTS_LIBS/docker.sh
   script:
+    - docker:registry:login
     - docker:image:build
   only:
     refs:
