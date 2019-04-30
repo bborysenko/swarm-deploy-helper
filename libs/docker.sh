@@ -112,7 +112,7 @@ docker:image:build() {
     if [[ -z $value ]]; then
       cmd+="--build-arg $name "
     else
-      cmd+="--build-arg $name=$value "
+      cmd+="--build-arg $name=\"$value\" "
     fi
   done < <(env | grep ^BUILD_ARG | cut -d'_' -f3- | sort )
 
@@ -120,9 +120,9 @@ docker:image:build() {
   cmd+="--file ${BUILD_DOCKERFILE:-Dockerfile} "
   cmd+="${BUILD_CONTEXT:-.}"
 
-  ( set -x; $cmd)
+  ( set -x; eval "$cmd")
 
-  docker tag "$CI_REGISTRY_IMAGE" "${CI_REGISTRY_IMAGE%:*}:latest"
+  ( set -x; docker tag "$CI_REGISTRY_IMAGE" "${CI_REGISTRY_IMAGE%:*}:latest" )
 }
 
 docker:compose:build() {
