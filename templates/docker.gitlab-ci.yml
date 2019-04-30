@@ -1,3 +1,20 @@
+# Since we use different CI_REGISTRY_IMAGE for master and feature branches
+# you might need to add following section in your job definitions
+# to use correct container image:
+#
+#   before_script:
+#     - *overide_ci_registry_image
+.overide_ci_registry_image: &overide_ci_registry_image |
+  # OVERIDE_CI_REGISTRY_IMAGE
+  if [[ "$CI_COMMIT_REF_SLUG" != "master" ]] && [[ -z "$CI_COMMIT_TAG" ]]; then
+    export CI_REGISTRY_IMAGE+=/$CI_COMMIT_REF_SLUG
+  fi
+  if [[ -z "$CI_COMMIT_TAG" ]]; then
+    export CI_REGISTRY_IMAGE+=:$CI_COMMIT_SHORT_SHA
+  else
+    export CI_REGISTRY_IMAGE+=:$CI_COMMIT_TAG
+  fi
+
 .docker:image:build:
   stage: build
   services:
